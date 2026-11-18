@@ -1,181 +1,120 @@
 
-import { useEffect, useState } from 'react';
-
 const audiences = [
-  {
-    number: '01',
-    term: 'Donors',
-    text: 'Give usable items a second life by sharing what you no longer need.',
-    icon: '↗',
-  },
-  {
-    number: '02',
-    term: 'Beneficiaries',
-    text: 'Find useful resources and connect with people ready to help.',
-    icon: '◇',
-  },
-  {
-    number: '03',
-    term: 'Administrators',
-    text: 'Keep resources, accounts and redistribution organised.',
-    icon: '◎',
-  },
+  ['01', 'Donors', 'Give usable items a second life by sharing what you no longer need.'],
+  ['02', 'Beneficiaries', 'Find useful resources and connect with people ready to help.'],
+  ['03', 'Administrators', 'Keep resources, accounts and redistribution organised.'],
 ];
 
-function ThemeToggle({ theme, onToggle }) {
-  const dark = theme === 'dark';
-
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      className="theme-toggle"
-      aria-label={`Switch to ${dark ? 'light' : 'dark'} mode`}
-      title={`Switch to ${dark ? 'light' : 'dark'} mode`}
-    >
-      <span className="theme-toggle-icon">
-        {dark ? '☀' : '☾'}
-      </span>
-      <span className="theme-toggle-label">
-        {dark ? 'Light mode' : 'Dark mode'}
-      </span>
-    </button>
-  );
-}
-
 export default function AuthShell({ title, subtitle, children }) {
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem('errs-theme') || 'light';
-    } catch {
-      return 'light';
-    }
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.style.colorScheme = theme;
-
-    try {
-      localStorage.setItem('errs-theme', theme);
-    } catch {
-      // Theme still works for the current session.
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((current) => current === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="auth-layout">
+    <div className="auth-layout min-h-screen">
+      <aside className="auth-visual relative hidden overflow-hidden lg:flex">
+        <div className="auth-orb auth-orb-one" />
+        <div className="auth-orb auth-orb-two" />
 
-      {/* LEFT INTRODUCTION PANEL */}
-      <aside className="auth-visual">
+        <div className="relative z-10 flex w-full flex-col justify-between p-12 xl:p-16">
+          {/* Brand */}
+          <div>
+            <div className="auth-brand-mark">✦</div>
 
-        <div className="visual-decoration visual-decoration-one" />
-        <div className="visual-decoration visual-decoration-two" />
-
-        <div className="visual-content">
-
-          <div className="visual-eyebrow">
-            <span className="eyebrow-dot" />
-            A COMMUNITY THAT SHARES
-          </div>
-
-          <div className="visual-heading">
-            <h1>
-              Good things
-              <br />
-              deserve a
-              <br />
-              <span>second life.</span>
-            </h1>
-
-            <p className="visual-description">
-              Connecting people who have extra resources
-              with those who need them. Less waste,
-              more possibilities.
-            </p>
-          </div>
-
-          <div className="visual-card">
-            <div className="visual-card-header">
-              <span>HOW IT WORKS</span>
-              <span className="visual-card-arrow">↗</span>
+            <div className="mt-3 text-sm font-bold tracking-[0.28em] text-wheat">
+              ERR
             </div>
 
-            <div className="audience-list">
-              {audiences.map((item) => (
-                <div className="audience-item" key={item.term}>
-                  <div className="audience-number">
-                    {item.number}
-                  </div>
+            <div className="mt-1 text-xs tracking-[0.16em] text-seashell/80">
+              ESSENTIAL RESOURCE REDISTRIBUTION
+            </div>
+          </div>
 
-                  <div className="audience-info">
-                    <h3>{item.term}</h3>
-                    <p>{item.text}</p>
-                  </div>
+          {/* Main introduction */}
+          <div className="max-w-xl">
+            <p className="mb-5 text-xs font-bold tracking-[0.25em] text-wheat">
+              A COMMUNITY THAT SHARES
+            </p>
 
-                  <div className="audience-icon">
-                    {item.icon}
+            <h1 className="font-display text-5xl font-bold leading-[1.08] text-seashell xl:text-6xl">
+              Good things deserve a{' '}
+              <span className="text-wheat">second life.</span>
+            </h1>
+
+            <p className="mt-6 max-w-md text-base leading-7 text-powder">
+              Connecting people who have extra resources with those who need
+              them. Less waste, more possibilities.
+            </p>
+
+            <div className="mt-12 space-y-5">
+              {audiences.map(([number, term, text]) => (
+                <div
+                  key={term}
+                  className="flex items-start gap-4 border-t border-white/20 pt-4"
+                >
+                  <span className="text-xs font-bold text-wheat">
+                    {number}
+                  </span>
+
+                  <div>
+                    <h3 className="font-semibold text-seashell">
+                      {term}
+                    </h3>
+
+                    <p className="mt-1 max-w-sm text-sm leading-6 text-powder">
+                      {text}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="visual-bottom">
-            <span>SHARE MORE. WASTE LESS.</span>
-            <span>MADE FOR IMPACT.</span>
-          </div>
-
+          {/* Bottom tagline */}
+          <p className="text-xs tracking-[0.18em] text-white/60">
+            SHARE MORE. WASTE LESS. · MADE FOR IMPACT.
+          </p>
         </div>
       </aside>
 
-      {/* RIGHT AUTHENTICATION PANEL */}
-      <main className="auth-main">
+      {/* Authentication section */}
+      <main className="auth-main flex min-h-screen items-center justify-center px-5 py-10 sm:px-8">
+        <div className="w-full max-w-md">
 
-        <div className="auth-topbar">
-          <div className="auth-top-label">
-            <span className="auth-status-dot" />
-            YOUR COMMUNITY STARTS HERE
+          {/* Mobile brand */}
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <div className="auth-brand-mark small">✦</div>
+
+            <div>
+              <div className="font-display text-xl font-bold text-violet">
+                ERR
+              </div>
+
+              <div className="text-[10px] font-bold tracking-[0.15em] text-blue">
+                ESSENTIAL RESOURCE REDISTRIBUTION
+              </div>
+            </div>
           </div>
 
-          <ThemeToggle
-            theme={theme}
-            onToggle={toggleTheme}
-          />
-        </div>
-
-        <div className="auth-form-wrapper">
-
-          <div className="form-intro">
-            <div className="form-overline">
+          {/* Form card */}
+          <div className="auth-form-card">
+            <div className="mb-2 text-xs font-bold tracking-[0.22em] text-french">
               WELCOME
             </div>
 
-            <h2>{title}</h2>
+            <h2 className="font-display text-3xl font-bold leading-tight text-violet">
+              {title}
+            </h2>
 
-            <p>{subtitle}</p>
-          </div>
+            <p className="mt-2 mb-7 text-sm leading-6 text-blue">
+              {subtitle}
+            </p>
 
-          <div className="auth-form-content">
             {children}
           </div>
 
-          <div className="auth-security-note">
-            <span>◇</span>
-            A better way to share resources and make a difference.
-          </div>
-
+          {/* Footer */}
+          <footer className="mt-7 flex flex-wrap justify-between gap-2 text-[10px] font-semibold tracking-[0.12em] text-blue/70">
+  <span>ESSENTIAL RESOURCE REDISTRIBUTION</span>
+  <span>© {new Date().getFullYear()} ERR</span>
+</footer>
         </div>
-
-        <footer className="auth-footer">
-          <span>ESSENTIAL RESOURCE REDISTRIBUTION</span>
-          <span>© {new Date().getFullYear()} · ALL RIGHTS RESERVED</span>
-        </footer>
-
       </main>
     </div>
   );

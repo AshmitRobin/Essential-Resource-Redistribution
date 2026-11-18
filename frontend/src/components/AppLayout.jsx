@@ -13,7 +13,7 @@ export default function AppLayout() {
     <div className="min-h-screen">
       <header className="border-b border-line bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-          <NavLink to="/dashboard" className="font-display text-xl font-bold text-forest-900">ERRS</NavLink>
+          <NavLink to="/dashboard" className="font-display text-xl font-bold text-forest-900">ERR</NavLink>
           <nav className="flex flex-1 items-center gap-1">
             <NavLink to="/dashboard" className={linkClass}>Dashboard</NavLink>
             <NavLink to="/profile" className={linkClass}>Profile</NavLink>

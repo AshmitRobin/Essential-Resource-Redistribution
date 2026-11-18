@@ -1,5 +1,5 @@
 const EMAIL = /^\S+@\S+\.\S+$/;
-const MOBILE = /^[0-9]{10,15}$/;
+const MOBILE = /^(?:\+[1-9]\d{7,14}|[0-9]{10,15})$/;
 
 const clean = (v) => (typeof v === 'string' ? v.trim() : '');
 
@@ -7,7 +7,7 @@ function checkName(name, errors) {
   if (name.length < 2 || name.length > 100) errors.name = 'Name must be 2 to 100 characters';
 }
 function checkMobile(mobile, errors) {
-  if (mobile && !MOBILE.test(mobile)) errors.mobile = 'Mobile must be 10 to 15 digits';
+  if (mobile && !MOBILE.test(mobile)) errors.mobile = 'Use international format, e.g. +919876543210';
 }
 function checkPassword(password, errors, field = 'password') {
   if (typeof password !== 'string' || password.length < 8 || !/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {

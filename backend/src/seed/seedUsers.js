@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 
 const users = [
-  { name: 'Admin One', email: 'admin@errs.org', password: 'Admin@123', mobile: '9000000001', role: 'Admin' },
+  { name: 'Admin One', email: 'admin@err.org', password: 'Admin@123', mobile: '9000000001', role: 'Admin' },
   { name: 'Green Grocers', email: 'green@grocers.com', password: 'Pass@123', mobile: '9000000002', role: 'Donor' },
   { name: 'Kind Boutique', email: 'kind@boutique.com', password: 'Pass@123', mobile: '9000000003', role: 'Donor' },
   { name: 'Ravi Kumar', email: 'ravi@gmail.com', password: 'Pass@123', mobile: '9000000004', role: 'Donor' },

@@ -32,7 +32,7 @@ function Details() {
       <h2 className="font-display text-xl font-bold">Your details</h2>
       {msg.text && <Alert type={msg.type}>{msg.text}</Alert>}
       <Field label="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} error={errors.name} />
-      <Field label="Mobile" inputMode="numeric" value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value })} error={errors.mobile} hint="Digits only. Leave empty to remove it." />
+      <Field label="Mobile" type="tel" inputMode="tel" value={form.mobile} onChange={(e) => setForm({ ...form, mobile: e.target.value })} error={errors.mobile} hint="Use international format for SMS recovery, e.g. +919876543210. Leave empty to remove it." />
       <Field label="Email" value={user.email} disabled hint="Your email is your login and cannot be changed here." />
       <div className="flex items-center gap-2 text-sm"><span className="font-medium">Role</span><RoleBadge role={user.role} /></div>
       <Button type="submit" loading={busy}>Save changes</Button>

@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema(
       match: [/^\S+@\S+\.\S+$/, 'Enter a valid email address'],
     },
     password: { type: String, required: true, select: false }, // bcrypt hash, never returned by default
-    mobile: { type: String, trim: true, match: [/^[0-9]{10,15}$/, 'Mobile must be 10 to 15 digits'] },
+    mobile: { type: String, trim: true, match: [/^(?:\+[1-9]\d{7,14}|[0-9]{10,15})$/, 'Enter a valid mobile number'] },
+    emailVerified: { type: Boolean, default: true },
     role: { type: String, enum: ROLES, required: true },
   },
   { timestamps: true }

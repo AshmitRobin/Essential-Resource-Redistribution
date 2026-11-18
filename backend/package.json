@@ -1,7 +1,8 @@
+
 {
-  "name": "errs-backend",
+  "name": "err-backend",
   "version": "1.0.0",
-  "description": "ERRS API - User Management module",
+  "description": "ERR API - User Management module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -14,7 +15,8 @@
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^7.8.13"
+    "mongoose": "^7.8.13",
+    "nodemailer": "^6.10.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

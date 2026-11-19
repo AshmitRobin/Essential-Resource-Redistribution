@@ -3,44 +3,413 @@
 @theme {
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #35152f;
-  --color-muted: #3e4b8c;
-  --color-line: #dfd1c8;
-  --color-paper: #fff4eb;
-  --color-forest-50: #fff4eb;
-  --color-forest-100: #f6e0b6;
-  --color-forest-600: #3e4b8c;
-  --color-forest-700: #3e4b8c;
-  --color-forest-900: #3d1534;
+
+  /* NYNÄ 5-Color System */
   --color-seashell: #fff4eb;
   --color-wheat: #f6e0b6;
   --color-powder: #a6bcc9;
-  --color-french: #3e4b8c;
+  --color-french: #3e4b8e;
   --color-violet: #3d1534;
-  --color-blue: #3e4b8c;
+
+  /* Semantic Aliases */
+  --color-ink: #3d1534;
+  --color-muted: #3e4b8e;
+  --color-line: rgba(61, 21, 52, 0.14);
+  --color-paper: #fff4eb;
+  --color-blue: #3e4b8e;
+  --color-forest-50: #fff4eb;
+  --color-forest-100: #f6e0b6;
+  --color-forest-600: #3e4b8e;
+  --color-forest-700: #3e4b8e;
+  --color-forest-900: #3d1534;
 }
 
-:root {
-  --surface: #fffaf5;
-  --field: #fffdfb;
-  --background: #fff4eb;
+* {
+  box-sizing: border-box;
 }
-body { background: var(--background); color: #35152f; font-family: var(--font-sans); }
-.auth-layout { display: grid; grid-template-columns: minmax(0, 1fr); background: #fff4eb; }
-.auth-visual { min-height: 100vh; background: linear-gradient(145deg, #3d1534 0%, #3e4b8c 100%); }
-.auth-orb { position: absolute; border-radius: 9999px; filter: blur(2px); pointer-events: none; }
-.auth-orb-one { width: 420px; height: 420px; top: -170px; right: -140px; background: radial-gradient(circle, #a6bcc955, transparent 70%); }
-.auth-orb-two { width: 360px; height: 360px; bottom: -180px; left: -130px; background: radial-gradient(circle, #f6e0b655, transparent 70%); }
-.auth-brand-mark { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 17px; background: #fff4eb; color: #3e4b8c; font-size: 30px; box-shadow: 0 10px 30px #1c102b30; }
-.auth-brand-mark.small { width: 42px; height: 42px; border-radius: 13px; font-size: 24px; }
-.auth-main { background: radial-gradient(ellipse at 85% 10%, #f6e0b688, transparent 38%), #fff4eb; }
-.auth-form-card { border: 1px solid #eadbd0; border-radius: 25px; background: #fffaf5; padding: 30px; box-shadow: 0 24px 70px #3d153410; }
-.text-blue { color: #3e4b8c; }
-.text-violet { color: #3d1534; }
-.text-french { color: #3e4b8c; }
-.bg-seashell { background-color: #fff4eb; }
-.bg-wheat { background-color: #f6e0b6; }
-.border-french { border-color: #3e4b8c; }
-@media (min-width: 1024px) { .auth-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-@media (max-width: 480px) { .auth-form-card { padding: 23px; border-radius: 20px; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+body {
+  margin: 0;
+  background-color: var(--color-seashell);
+  color: var(--color-violet);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-wheat);
+  color: var(--color-violet);
+}
+
+/* =====================================================
+   WARM SEASHELL & PEACH-WHEAT SILK CANVAS (No Blue Mist)
+   ===================================================== */
+.editorial-stage {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background:
+    /* Warm golden Wheat sunbeam top-left */
+    radial-gradient(ellipse 68% 60% at 10% 14%, rgba(246, 224, 182, 0.92) 0%, rgba(246, 224, 182, 0) 68%),
+    /* Soft warm Seashell-blush glow top-right */
+    radial-gradient(ellipse 60% 55% at 90% 18%, rgba(250, 225, 205, 0.78) 0%, rgba(255, 244, 235, 0) 66%),
+    /* Subtle plum-rose warmth bottom-left */
+    radial-gradient(ellipse 52% 48% at 6% 92%, rgba(61, 21, 52, 0.08) 0%, transparent 65%),
+    /* Rich Wheat warmth bottom-right behind the card */
+    radial-gradient(ellipse 68% 60% at 82% 86%, rgba(246, 224, 182, 0.88) 0%, transparent 68%),
+    /* Luminous Seashell base */
+    linear-gradient(145deg, #fff6ef 0%, #fff4eb 50%, #fcebd6 100%);
+  overflow: hidden;
+}
+
+/* Slow-drifting warm silk ribbons */
+.aurora-ribbon-warm,
+.aurora-ribbon-peach {
+  position: fixed;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(75px);
+  animation: ribbon-drift 16s ease-in-out infinite alternate;
+}
+
+.aurora-ribbon-warm {
+  width: 560px;
+  height: 440px;
+  top: 18%;
+  left: -90px;
+  background: radial-gradient(circle, rgba(246, 224, 182, 0.85), rgba(255, 244, 235, 0));
+}
+
+.aurora-ribbon-peach {
+  width: 540px;
+  height: 500px;
+  top: 12%;
+  right: -80px;
+  background: radial-gradient(circle, rgba(248, 221, 198, 0.72), rgba(246, 224, 182, 0.25));
+  animation-delay: -8s;
+}
+
+@keyframes ribbon-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(26px, -20px) scale(1.06); }
+}
+
+/* Tactile fine print grain overlay */
+.editorial-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Subtle warm architectural grid */
+.editorial-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-size: 56px 56px;
+  background-image:
+    linear-gradient(to right, rgba(61, 21, 52, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(61, 21, 52, 0.045) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, #000 40%, transparent 100%);
+}
+
+/* Interactive warm golden-seashell spotlight following cursor */
+.editorial-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    540px circle at var(--mx, 40%) var(--my, 45%),
+    rgba(255, 255, 255, 0.55),
+    rgba(246, 224, 182, 0.35) 45%,
+    transparent 75%
+  );
+}
+
+/* =====================================================
+   PILL-SHAPED FROSTED NAVIGATION BAR
+   ===================================================== */
+.editorial-nav {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px 10px 20px;
+  border-radius: 999px;
+  background: rgba(255, 252, 249, 0.84);
+  border: 1.5px solid rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 12px 32px -10px rgba(61, 21, 52, 0.14),
+    0 2px 8px rgba(61, 21, 52, 0.05),
+    inset 0 1px 0 #ffffff;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* =====================================================
+   DISTINCT FEATURE CARDS (01, 02, 03) + HOVER MOTION
+   ===================================================== */
+.audience-row {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 22px;
+  padding: 18px 22px;
+  border: 1.5px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 10px 24px -10px rgba(61, 21, 52, 0.1),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+/* Distinct warm surface shading per card */
+.audience-row-01 {
+  background: linear-gradient(135deg, rgba(255, 251, 246, 0.92) 0%, rgba(246, 224, 182, 0.72) 100%);
+}
+
+.audience-row-02 {
+  background: linear-gradient(135deg, rgba(255, 248, 242, 0.92) 0%, rgba(250, 224, 206, 0.78) 100%);
+}
+
+.audience-row-03 {
+  background: linear-gradient(135deg, rgba(255, 250, 246, 0.92) 0%, rgba(242, 226, 232, 0.78) 100%);
+}
+
+/* Left gradient accent indicator */
+.audience-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4.5px;
+  border-radius: 0 99px 99px 0;
+  background: linear-gradient(180deg, var(--color-violet) 0%, var(--color-french) 100%);
+  opacity: 0.3;
+  transform: scaleY(0.65);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth lift + slide hover animation */
+.audience-row:hover {
+  transform: translateY(-4px) translateX(6px);
+  border-color: #ffffff;
+  box-shadow:
+    0 20px 38px -12px rgba(61, 21, 52, 0.18),
+    0 6px 14px -3px rgba(61, 21, 52, 0.08),
+    inset 0 1.5px 0 #ffffff;
+}
+
+.audience-row.is-active {
+  border-color: rgba(61, 21, 52, 0.22);
+  box-shadow:
+    0 18px 36px -12px rgba(61, 21, 52, 0.16),
+    0 4px 12px -2px rgba(61, 21, 52, 0.07),
+    inset 0 1.5px 0 #ffffff;
+}
+
+.audience-row:hover::before,
+.audience-row.is-active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* =====================================================
+   RIM-LIT LUMINOUS AUTH VAULT (WARM WHEAT & SEASHELL HALO)
+   ===================================================== */
+.auth-vault-wrap {
+  position: relative;
+}
+
+/* Warm golden-peach halo behind the crisp white card */
+.auth-vault-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  z-index: 0;
+  border-radius: 38px;
+  background: linear-gradient(145deg, rgba(246, 224, 182, 0.78) 0%, rgba(250, 222, 202, 0.65) 55%, rgba(61, 21, 52, 0.1) 100%);
+  filter: blur(22px);
+  pointer-events: none;
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 30px;
+  padding: 32px 32px 28px;
+  background: linear-gradient(170deg, #ffffff 0%, #fffaf5 60%, #fff3e6 100%);
+  color: var(--color-violet);
+  border: 1.5px solid #ffffff;
+  box-shadow:
+    0 32px 70px -16px rgba(61, 21, 52, 0.18),
+    0 12px 28px -8px rgba(61, 21, 52, 0.08),
+    inset 0 2px 0 #ffffff;
+  animation: card-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.auth-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 3.5px;
+  border-radius: 0 0 99px 99px;
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-french) 65%, var(--color-wheat) 100%);
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Inputs */
+.auth-card label:not(.role-tile) {
+  color: var(--color-violet);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.auth-card input:not([type="radio"]):not([type="checkbox"]),
+.auth-card select {
+  height: 43px;
+  padding: 0 14px;
+  border: 1.5px solid rgba(61, 21, 52, 0.15);
+  border-radius: 13px;
+  background: linear-gradient(180deg, #fcf4ec 0%, #fff9f3 100%);
+  color: var(--color-violet);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: inset 0 1.5px 3px rgba(61, 21, 52, 0.04);
+  transition: all 0.18s ease;
+}
+
+.auth-card input::placeholder {
+  color: rgba(62, 75, 142, 0.45);
+}
+
+.auth-card input:not([type="radio"]):hover {
+  border-color: var(--color-french);
+  background: #ffffff;
+}
+
+.auth-card input:not([type="radio"]):focus {
+  outline: none;
+  border-color: var(--color-french);
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(62, 75, 142, 0.15),
+    0 4px 12px rgba(61, 21, 52, 0.06);
+}
+
+/* Shimmering Primary Action Button */
+.auth-card button[type="submit"] {
+  position: relative;
+  overflow: hidden;
+  height: 48px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3d1534 0%, #3e4b8e 100%);
+  color: var(--color-seashell);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 14px 28px -8px rgba(61, 21, 52, 0.42),
+    0 4px 10px -2px rgba(62, 75, 142, 0.25),
+    inset 0 1px 0 rgba(255, 244, 235, 0.3);
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.auth-card button[type="submit"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(246, 224, 182, 0.32), transparent);
+  transform: skewX(-22deg);
+  transition: left 0.55s ease;
+}
+
+.auth-card button[type="submit"]:hover:not(:disabled)::after {
+  left: 150%;
+}
+
+.auth-card button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.07);
+  box-shadow:
+    0 18px 34px -8px rgba(62, 75, 142, 0.48),
+    inset 0 1px 0 rgba(255, 244, 235, 0.4);
+}
+
+.auth-card button[type="submit"]:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Role Selector Tiles */
+.role-tile {
+  cursor: pointer;
+  border-radius: 15px;
+  border: 1.5px solid rgba(61, 21, 52, 0.15);
+  background: #fcf4ec;
+  padding: 12px 14px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.role-tile:hover {
+  border-color: var(--color-french);
+  background: #ffffff;
+}
+
+.role-tile.is-selected {
+  border-color: var(--color-violet);
+  background: linear-gradient(145deg, #fff6ea 0%, #f6e0b6 100%);
+  box-shadow:
+    0 10px 22px -8px rgba(61, 21, 52, 0.22),
+    inset 0 1px 0 #ffffff;
+}
+
+@media (max-width: 640px) {
+  .editorial-stage {
+    padding: 12px;
+  }
+  .auth-card {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+}

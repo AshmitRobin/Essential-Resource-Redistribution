@@ -1,12 +1,43 @@
-const inputBase =
-  'w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-muted/60 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/25 disabled:bg-forest-50 disabled:text-muted';
+import { useState } from 'react';
 
-export function Field({ label, error, hint, className = '', ...props }) {
+const inputBase =
+  'w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-violet outline-none transition placeholder:text-french/45 focus:border-french focus:ring-3 focus:ring-french/20 disabled:bg-seashell disabled:text-french/60';
+
+export function Field({ label, error, hint, type = 'text', className = '', ...props }) {
+  const [showPwd, setShowPwd] = useState(false);
+  const isPassword = type === 'password';
+  const resolvedType = isPassword ? (showPwd ? 'text' : 'password') : type;
+
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1 block text-sm font-medium">{label}</span>
-      <input {...props} className={`${inputBase} ${error ? 'border-red-500' : 'border-line'}`} />
-      {error ? <span className="mt-1 block text-xs text-red-600">{error}</span> : hint ? <span className="mt-1 block text-xs text-muted">{hint}</span> : null}
+      <span className="mb-1.5 block text-[13px] font-bold text-violet">{label}</span>
+      <div className="relative">
+        <input
+          {...props}
+          type={resolvedType}
+          aria-invalid={Boolean(error)}
+          className={`${inputBase} ${isPassword ? 'pr-16' : ''} ${
+            error
+              ? 'border-[#a3263d] focus:border-[#a3263d] focus:ring-[#a3263d]/20'
+              : 'border-line hover:border-powder'
+          }`}
+        />
+        {isPassword && (
+          <button
+            type="button"
+            tabIndex={-1}
+            onClick={() => setShowPwd((v) => !v)}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-lg bg-seashell px-2 py-1 text-[11px] font-bold text-french transition hover:bg-wheat hover:text-violet"
+          >
+            {showPwd ? 'Hide' : 'Show'}
+          </button>
+        )}
+      </div>
+      {error ? (
+        <span className="mt-1.5 block text-xs font-semibold text-[#a3263d]">{error}</span>
+      ) : hint ? (
+        <span className="mt-1.5 block text-xs text-french/80">{hint}</span>
+      ) : null}
     </label>
   );
 }
@@ -14,17 +45,36 @@ export function Field({ label, error, hint, className = '', ...props }) {
 export function SelectField({ label, error, hint, children, className = '', ...props }) {
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1 block text-sm font-medium">{label}</span>
-      <select {...props} className={`${inputBase} ${error ? 'border-red-500' : 'border-line'}`}>{children}</select>
-      {error ? <span className="mt-1 block text-xs text-red-600">{error}</span> : hint ? <span className="mt-1 block text-xs text-muted">{hint}</span> : null}
+      <span className="mb-1.5 block text-[13px] font-bold text-violet">{label}</span>
+      <select
+        {...props}
+        aria-invalid={Boolean(error)}
+        className={`${inputBase} ${
+          error
+            ? 'border-[#a3263d] focus:border-[#a3263d] focus:ring-[#a3263d]/20'
+            : 'border-line hover:border-powder'
+        }`}
+      >
+        {children}
+      </select>
+      {error ? (
+        <span className="mt-1.5 block text-xs font-semibold text-[#a3263d]">{error}</span>
+      ) : hint ? (
+        <span className="mt-1.5 block text-xs text-french/80">{hint}</span>
+      ) : null}
     </label>
   );
 }
 
 const variants = {
-  primary: 'bg-forest-700 text-white hover:bg-forest-900 focus-visible:outline-forest-700',
-  secondary: 'border border-line bg-white text-ink hover:bg-forest-50 focus-visible:outline-forest-700',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600',
+  primary:
+    'bg-gradient-to-br from-violet to-french text-seashell shadow-lg shadow-violet/25 hover:brightness-110 focus-visible:outline-french',
+  secondary:
+    'border border-line bg-white text-violet hover:border-french hover:bg-seashell focus-visible:outline-french',
+  accent:
+    'border border-violet/20 bg-wheat text-violet hover:bg-wheat/80 focus-visible:outline-french',
+  danger:
+    'bg-[#a3263d] text-seashell hover:bg-[#881d31] focus-visible:outline-[#a3263d]',
 };
 
 export function Button({ variant = 'primary', loading = false, children, className = '', ...props }) {
@@ -32,7 +82,7 @@ export function Button({ variant = 'primary', loading = false, children, classNa
     <button
       {...props}
       disabled={loading || props.disabled}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${variants[variant]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${variants[variant]} ${className}`}
     >
       {loading && <Spinner small />}
       {children}
@@ -41,29 +91,60 @@ export function Button({ variant = 'primary', loading = false, children, classNa
 }
 
 export function Alert({ type = 'error', children }) {
-  const styles = type === 'success' ? 'border-forest-600/30 bg-forest-50 text-forest-900' : 'border-red-200 bg-red-50 text-red-800';
-  return <div role={type === 'error' ? 'alert' : 'status'} className={`rounded-lg border px-3 py-2.5 text-sm ${styles}`}>{children}</div>;
+  const styles =
+    type === 'success'
+      ? 'border-french/30 bg-wheat/65 text-violet'
+      : 'border-[#a3263d]/30 bg-[#fdf2f4] text-[#881d31]';
+
+  return (
+    <div
+      role={type === 'error' ? 'alert' : 'status'}
+      className={`rounded-xl border px-3.5 py-2.5 text-sm font-semibold ${styles}`}
+    >
+      {children}
+    </div>
+  );
 }
 
 const roleStyles = {
-  Donor: 'bg-amber-100 text-amber-900',
-  Beneficiary: 'bg-sky-100 text-sky-900',
-  Admin: 'bg-violet-100 text-violet-900',
+  Donor: 'border border-violet/20 bg-wheat text-violet',
+  Beneficiary: 'border border-french/30 bg-powder/40 text-violet',
+  Admin: 'border border-violet bg-violet text-wheat',
 };
+
 export const RoleBadge = ({ role }) => (
-  <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${roleStyles[role]}`}>{role}</span>
+  <span
+    className={`inline-flex items-center rounded-full px-3 py-0.5 text-xs font-bold tracking-wide ${
+      roleStyles[role] || roleStyles.Donor
+    }`}
+  >
+    {role}
+  </span>
 );
 
 export function Spinner({ small = false }) {
   const size = small ? 'h-4 w-4' : 'h-6 w-6';
-  return <span className={`inline-block ${size} animate-spin rounded-full border-2 border-current border-t-transparent`} aria-label="Loading" />;
+  return (
+    <span
+      className={`inline-block ${size} animate-spin rounded-full border-2 border-current border-t-transparent`}
+      aria-label="Loading"
+    />
+  );
 }
 
 export function Modal({ title, onClose, children }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div role="dialog" aria-modal="true" aria-label={title} className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h2 className="mb-4 font-display text-xl font-bold">{title}</h2>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-violet/55 p-4 backdrop-blur-md"
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className="w-full max-w-md rounded-3xl border border-white bg-seashell p-6 shadow-2xl"
+      >
+        <h2 className="mb-4 font-display text-xl font-extrabold text-violet">{title}</h2>
         {children}
       </div>
     </div>
